@@ -83,8 +83,9 @@ The website uses the following Django models:
 - Certificate link
 - Expiration handling
 
-## Database Schema Diagram
+# Database Schema
 
+```mermaid
 erDiagram
     PersonalInformation {
         int id PK
@@ -158,6 +159,25 @@ erDiagram
     %% Skills: Ordered by skill_category, -skill_level
     %% Projects: No specific ordering
     %% Certifications: Ordered by -cert_end_date, -cert_start_date
+```
+
+## Database Schema Overview
+
+This entity-relationship diagram represents a portfolio/resume database with the following key entities:
+
+- **PersonalInformation**: Stores user profile data
+- **Education**: Academic background and qualifications
+- **Experiences**: Professional work history
+- **Skills**: Technical and professional skills with proficiency levels
+- **Projects**: Portfolio projects linked to experiences
+- **Certifications**: Professional certifications and credentials
+- **Projects_Skills**: Junction table for many-to-many relationship between projects and skills
+
+### Key Relationships
+
+1. **Experiences → Projects**: One-to-many (an experience can relate to multiple projects)
+2. **Projects ↔ Skills**: Many-to-many (projects use multiple skills, skills are used in multiple projects)
+
 
 ## Installation & Setup
 
