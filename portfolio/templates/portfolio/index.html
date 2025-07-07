@@ -74,7 +74,7 @@
             </li>
           {% endif %}
 
-          {% if projects_list|length != 0 %}
+          {% if project_list|length != 0 %}
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#projects">Projects</a>
             </li>
@@ -184,102 +184,38 @@
       <!-- Experiences Section End -->
 
       <!-- Projects Section Start -->
-      {% if projects_list|length != 0 %}
+      {% if project_list|length != 0 %}
         <section
           class="resume-section p-3 p-lg-5 d-flex flex-column"
           id="projects">
           <div class="my-auto">
             <h2 class="mb-5">Projects</h2>
-
-            <div class="resume-item d-flex flex-column flex-md-row mb-5">
-              <div class="resume-content mr-auto">
-                <h3 class="mb-0">E-Commerce Platform</h3>
-                <div class="subheading mb-3">Full Stack Web Application</div>
-                <p>
-                  Developed a complete e-commerce solution using React.js,
-                  Node.js, and MongoDB. Implemented secure payment processing,
-                  user authentication, inventory management, and real-time order
-                  tracking. The platform handles over 1000+ daily transactions
-                  with 99.9% uptime.
-                </p>
-                <div class="mt-2">
-                  <span class="badge badge-secondary mr-2">React.js</span>
-                  <span class="badge badge-secondary mr-2">Node.js</span>
-                  <span class="badge badge-secondary mr-2">MongoDB</span>
-                  <span class="badge badge-secondary mr-2">Stripe API</span>
+            
+            {% for project in project_list %}
+              <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                <div class="resume-content mr-auto">
+                  <h3 class="mb-0">{{ project.proj_name }}</h3>
+                  <div class="subheading mb-3">
+                    {{project.proj_relates_to_exp.company_name}}
+                  </div>
+                  <ul>
+                      {% for point in project.proj_desc|split:'-1,;' %}
+                        <li>{{ point }}</li>
+                      {% endfor %}
+                  </ul>
+                  <div class="mt-2">
+                    {% for skills in project.proj_skills.all %}
+                      <span class="badge badge-secondary mr-2">{{skills.skill_name}}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="resume-date text-md-right">
+                  <span class="text-primary">
+                    <a href="{{ project.proj_code_link }}" target="_blank">Github Link</a>
+                  </span>
                 </div>
               </div>
-              <div class="resume-date text-md-right">
-                <span class="text-primary">January 2023 - Present</span>
-              </div>
-            </div>
-
-            <div class="resume-item d-flex flex-column flex-md-row mb-5">
-              <div class="resume-content mr-auto">
-                <h3 class="mb-0">Task Management Dashboard</h3>
-                <div class="subheading mb-3">Progressive Web Application</div>
-                <p>
-                  Built a collaborative task management PWA with real-time
-                  updates, drag-and-drop functionality, and offline capabilities.
-                  Features include team collaboration, file attachments, deadline
-                  notifications, and comprehensive analytics dashboard.
-                </p>
-                <div class="mt-2">
-                  <span class="badge badge-secondary mr-2">Vue.js</span>
-                  <span class="badge badge-secondary mr-2">Firebase</span>
-                  <span class="badge badge-secondary mr-2">PWA</span>
-                  <span class="badge badge-secondary mr-2">WebSocket</span>
-                </div>
-              </div>
-              <div class="resume-date text-md-right">
-                <span class="text-primary">August 2022 - December 2022</span>
-              </div>
-            </div>
-
-            <div class="resume-item d-flex flex-column flex-md-row mb-5">
-              <div class="resume-content mr-auto">
-                <h3 class="mb-0">Weather Analytics API</h3>
-                <div class="subheading mb-3">RESTful API Service</div>
-                <p>
-                  Designed and developed a comprehensive weather data API serving
-                  historical and real-time weather information. Integrated
-                  multiple weather data sources, implemented caching strategies,
-                  and built analytics features for climate trend analysis.
-                </p>
-                <div class="mt-2">
-                  <span class="badge badge-secondary mr-2">Python</span>
-                  <span class="badge badge-secondary mr-2">Django</span>
-                  <span class="badge badge-secondary mr-2">PostgreSQL</span>
-                  <span class="badge badge-secondary mr-2">Redis</span>
-                </div>
-              </div>
-              <div class="resume-date text-md-right">
-                <span class="text-primary">March 2022 - July 2022</span>
-              </div>
-            </div>
-
-            <div class="resume-item d-flex flex-column flex-md-row">
-              <div class="resume-content mr-auto">
-                <h3 class="mb-0">Mobile Fitness Tracker</h3>
-                <div class="subheading mb-3">React Native Application</div>
-                <p>
-                  Created a cross-platform mobile app for fitness tracking with
-                  GPS route mapping, workout logging, and social features.
-                  Integrated with wearable devices and health APIs to provide
-                  comprehensive fitness analytics and personalized
-                  recommendations.
-                </p>
-                <div class="mt-2">
-                  <span class="badge badge-secondary mr-2">React Native</span>
-                  <span class="badge badge-secondary mr-2">TypeScript</span>
-                  <span class="badge badge-secondary mr-2">Health APIs</span>
-                  <span class="badge badge-secondary mr-2">GPS</span>
-                </div>
-              </div>
-              <div class="resume-date text-md-right">
-                <span class="text-primary">September 2021 - February 2022</span>
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </section>
       {% endif %}
