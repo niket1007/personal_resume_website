@@ -16,7 +16,7 @@ A dynamic personal resume website built with Django that showcases your professi
 - **Modern UI**: Clean, professional Bootstrap-based design
 - **Admin Interface**: Easy content management through Django admin
 - **Custom Date Fields**: Special month/year fields for dates
-- **Skill Categories**: Organized skills by categories (Programming Languages, Frameworks, Databases, Cloud, Tools)
+- **Skill Categories**: Organised skills by categories (Programming Languages, Frameworks, Databases, Cloud, Tools)
 
 ## Technology Stack
 
@@ -102,7 +102,7 @@ erDiagram
         varchar institution_name "Name of educational institution"
         varchar degree "Degree/qualification obtained"
         varchar place "Location of institution"
-        int start_year "Year started (2013-present)"
+        int start_year "Year started (2013-current year)"
         int end_year "Year ended (nullable)"
     }
     
@@ -113,7 +113,7 @@ erDiagram
         varchar position "Job title/position"
         date start_date "Start date (MonthYearField)"
         date end_date "End date (MonthYearField, nullable)"
-        varchar description "Semicolon-separated job responsibilities"
+        varchar description "Semicolon-separated job responsibilities (nullable)"
     }
     
     Skills {
@@ -128,7 +128,7 @@ erDiagram
         int id PK
         varchar proj_name "Project name (unique)"
         varchar proj_desc "Project description (unique, min 50 chars)"
-        varchar proj_code_link "GitHub repository URL (unique)"
+        varchar proj_code_link "GitHub repository URL (nullable)"
         int proj_relates_to_exp_id FK "Foreign key to Experiences (nullable)"
     }
     
@@ -147,18 +147,18 @@ erDiagram
     }
     
     %% Relationships
-    Experiences ||--o{ Projects : "relates_to (one experience can have many projects)"
+    Experiences ||--o{ Projects : "relates_to_exp (one experience can have many projects)"
     Projects }o--o{ Skills : "many_to_many (projects use multiple skills)"
     Projects ||--o{ Projects_Skills : "through table"
     Skills ||--o{ Projects_Skills : "through table"
     
     %% Additional Notes
-    %% PersonalInformation: Single record per user
-    %% Education: Ordered by -start_year, -end_year
-    %% Experiences: Ordered by -start_date, -end_date
-    %% Skills: Ordered by skill_category, -skill_level
-    %% Projects: No specific ordering
-    %% Certifications: Ordered by -cert_end_date, -cert_start_date
+    %% PersonalInformation: Single record per user - all fields required
+    %% Education: Ordered by -start_year, -end_year; end_year validation
+    %% Experiences: Ordered by -start_date, -end_date; end_date validation
+    %% Skills: Ordered by skill_category, -skill_level; skill_level range 1-5
+    %% Projects: No specific ordering; unique constraints on name and description
+    %% Certifications: Ordered by -cert_end_date, -cert_start_date; end_date validation
 ```
 
 ## Database Schema Overview
@@ -264,59 +264,31 @@ Visit `http://127.0.0.1:8000/` to view your website and `http://127.0.0.1:8000/a
 - **Responsive Navigation**: Auto-hides sections with no content
 - **Text Splitting**: Custom template filter for name/title color formatting
 
-## Customization
-
-### Styling
-- Modify `portfolio/static/portfolio/css/resume.css` for custom styling
-- Primary color can be changed by updating the `#BD5D38` color values
-
-### Content Structure
-- Template located at `portfolio/templates/portfolio/index.html`
-- Uses Bootstrap 4 grid system for responsive layout
-
-### Adding New Sections
-1. Create new model in `models.py`
-2. Add to admin in `admin.py`
-3. Update view in `views.py`
-4. Modify template to display new section
-
 ## Deployment
 
 ### Production Settings
 1. Set `DEBUG=False` in your `.env` file
 2. Configure `ALLOWED_HOSTS` with your domain
 3. Set up static files serving
-4. Use a production database (PostgreSQL recommended)
+4. Use a production database
 
 ### Static Files
 ```bash
 python manage.py collectstatic
 ```
 
-## Design Template Reference
+## Template Attribution
 
-This project uses a Bootstrap 4 CV template as a base:
-- **Template Source**: [ThemeWagon Free Bootstrap CV Template](https://themewagon.com/themes/free-bootstrap-4-cv-template-download/)
-- **License**: MIT License (included in project)
+This project is built upon the **"Resume - A Bootstrap 4, Simple Yet Exquisite CV Template"** with extensive modifications including:
 
-## Contributing
+- **Complete Django Backend Integration**: Converted static template to dynamic Django application
+- **Database-Driven Content**: All content now managed through SQLite database with custom models
+- **Admin Interface**: Added Django admin for easy content management
+- **Custom Fields**: Implemented specialized form fields like month/year date pickers
+- **Dynamic Relationships**: Created many-to-many relationships between projects and skills
+- **Enhanced Functionality**: Added features like skill categorization, project linking, and certification management
+- **Responsive Improvements**: Enhanced mobile responsiveness and user experience
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For issues and questions:
-1. Check the Django documentation
-2. Review the template reference
-3. Create an issue in the repository
+**Template Source**: [ThemeWagon Free Bootstrap CV Template](https://themewagon.com/themes/free-bootstrap-4-cv-template-download/)
 
 ---
-
-**Note**: This is a personal portfolio website template. Customize the content, styling, and features according to your needs.
