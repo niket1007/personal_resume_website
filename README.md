@@ -201,7 +201,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 3. **Install dependencies**
 ```bash
-pip install django python-decouple
+pip install -r requirements.txt
 ```
 
 4. **Environment Configuration**
