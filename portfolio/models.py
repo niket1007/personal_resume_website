@@ -102,12 +102,10 @@ class Projects(models.Model):
         validators=[
             validators.MinLengthValidator(50),
         ])
-    
     proj_code_link = models.URLField(
-        unique=True,
-        validators=[validators.URLValidator()]
+        validators=[validators.URLValidator()],
+        blank=True
         )
-
     proj_relates_to_exp = models.ForeignKey(Experiences, on_delete=models.SET_NULL, blank=True, null=True)
 
 class Certifications(models.Model):
