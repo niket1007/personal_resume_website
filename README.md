@@ -83,73 +83,100 @@ The website uses the following Django models:
 - Certificate link
 - Expiration handling
 
-## Database Schema Diagram
+# Database Schema
 
+```mermaid
 erDiagram
     PersonalInformation {
         int id PK
-        varchar name
-        varchar profile
-        varchar github_profile_link
-        varchar linkedin_link
-        varchar email
-        varchar short_description
+        varchar name "User's full name"
+        varchar profile "Professional title/profile"
+        varchar github_profile_link "GitHub profile URL"
+        varchar linkedin_link "LinkedIn profile URL"
+        varchar email "Email address"
+        varchar short_description "Brief bio/description"
     }
     
     Education {
         int id PK
-        varchar institution_name
-        varchar degree
-        varchar place
-        int start_year
-        int end_year "nullable"
+        varchar institution_name "Name of educational institution"
+        varchar degree "Degree/qualification obtained"
+        varchar place "Location of institution"
+        int start_year "Year started (2013-present)"
+        int end_year "Year ended (nullable)"
     }
     
     Experiences {
         int id PK
-        varchar company_name
-        varchar job_type "choices: intern, full-time"
-        varchar position
-        date start_date "MonthYearField"
-        date end_date "MonthYearField, nullable"
-        varchar description "semicolon separated"
+        varchar company_name "Name of company/organization"
+        varchar job_type "Type: intern or full-time"
+        varchar position "Job title/position"
+        date start_date "Start date (MonthYearField)"
+        date end_date "End date (MonthYearField, nullable)"
+        varchar description "Semicolon-separated job responsibilities"
     }
     
     Skills {
         int id PK
-        varchar skill_name
-        int skill_level "1-5 range"
-        varchar skill_devicon_class
-        varchar skill_category "choices: Programming Language, Framework, Database, Cloud, Tools"
+        varchar skill_name "Name of the skill"
+        int skill_level "Proficiency level (1-5)"
+        varchar skill_devicon_class "CSS class for skill icon"
+        varchar skill_category "Category: Programming Language, Framework, Database, Cloud, Tools"
     }
     
     Projects {
         int id PK
-        varchar proj_name "unique"
-        varchar proj_desc "unique, min 50 chars"
-        varchar proj_code_link "unique URL"
-        int proj_relates_to_exp_id FK "nullable"
+        varchar proj_name "Project name (unique)"
+        varchar proj_desc "Project description (unique, min 50 chars)"
+        varchar proj_code_link "GitHub repository URL (unique)"
+        int proj_relates_to_exp_id FK "Foreign key to Experiences (nullable)"
     }
     
     Certifications {
         int id PK
-        varchar cert_name "unique"
-        date cert_start_date "MonthYearField"
-        date cert_end_date "MonthYearField, nullable"
-        varchar cert_link "nullable"
+        varchar cert_name "Certification name (unique)"
+        date cert_start_date "Certification start date (MonthYearField)"
+        date cert_end_date "Certification end date (MonthYearField, nullable)"
+        varchar cert_link "Certificate URL (nullable)"
     }
     
     Projects_Skills {
         int id PK
-        int project_id FK
-        int skill_id FK
+        int project_id FK "Foreign key to Projects"
+        int skill_id FK "Foreign key to Skills"
     }
     
     %% Relationships
-    Experiences ||--o{ Projects : "relates_to"
-    Projects }o--o{ Skills : "many_to_many"
-    Projects ||--o{ Projects_Skills : "through"
-    Skills ||--o{ Projects_Skills : "through"
+    Experiences ||--o{ Projects : "relates_to (one experience can have many projects)"
+    Projects }o--o{ Skills : "many_to_many (projects use multiple skills)"
+    Projects ||--o{ Projects_Skills : "through table"
+    Skills ||--o{ Projects_Skills : "through table"
+    
+    %% Additional Notes
+    %% PersonalInformation: Single record per user
+    %% Education: Ordered by -start_year, -end_year
+    %% Experiences: Ordered by -start_date, -end_date
+    %% Skills: Ordered by skill_category, -skill_level
+    %% Projects: No specific ordering
+    %% Certifications: Ordered by -cert_end_date, -cert_start_date
+```
+
+## Database Schema Overview
+
+This entity-relationship diagram represents a portfolio/resume database with the following key entities:
+
+- **PersonalInformation**: Stores user profile data
+- **Education**: Academic background and qualifications
+- **Experiences**: Professional work history
+- **Skills**: Technical and professional skills with proficiency levels
+- **Projects**: Portfolio projects linked to experiences
+- **Certifications**: Professional certifications and credentials
+- **Projects_Skills**: Junction table for many-to-many relationship between projects and skills
+
+### Key Relationships
+
+1. **Experiences → Projects**: One-to-many (an experience can relate to multiple projects)
+2. **Projects ↔ Skills**: Many-to-many (projects use multiple skills, skills are used in multiple projects)
 
 
 ## Installation & Setup
