@@ -8,7 +8,7 @@ class ProjectModelAdmin(admin.ModelAdmin):
     list_filter = ['proj_name']
 
     def get_proj_skills(self, obj):
-        return ", ".join([skill for skill in obj.proj_skills.all()])
+        return ", ".join([skill.skill_name for skill in obj.proj_skills.all()])
     
     get_proj_skills.short_description = 'proj_skills'
 admin.site.register(models.Projects, ProjectModelAdmin)
