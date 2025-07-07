@@ -1,0 +1,5 @@
+.env
+initial_data/*
+portfolio/migrations/*
+db.sqlite3
+*__pycache__*
