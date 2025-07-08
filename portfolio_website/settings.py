@@ -1,6 +1,5 @@
 from pathlib import Path
-from decouple import config
-import os
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +14,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', cast=str)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*'] 
-# if config('ALLOWED_HOSTS') == '' else config('ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default="127.0.0.1", cast=Csv()) 
 
 
 # Application definition
@@ -115,4 +113,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = [] if config('CSRF_TRUSTED_ORIGINS') == '' else config('CSRF_TRUSTED_ORIGINS').split(" ")
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv())
