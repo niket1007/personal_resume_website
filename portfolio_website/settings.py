@@ -15,7 +15,8 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', cast=str)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [] if config('ALLOWED_HOSTS') == '' else config('ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = ['personal-resume-website-psi.vercel.app'] 
+# if config('ALLOWED_HOSTS') == '' else config('ALLOWED_HOSTS').split(" ")
 
 
 # Application definition
